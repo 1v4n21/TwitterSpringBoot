@@ -22,7 +22,7 @@ public class Guardado {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "guardado_seq")
     @SequenceGenerator(name = "guardado_seq", sequenceName = "GUARDADO_SEQ", allocationSize = 1)
     @Column(name = "idGuardado")
-    private int idGuardado;
+    private long idGuardado;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
@@ -31,4 +31,9 @@ public class Guardado {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "idPublicacion", referencedColumnName = "idPublicacion")
     private Publicacion publicacion;
+
+    public Guardado(Usuario usuario, Publicacion publicacion) {
+        this.usuario = usuario;
+        this.publicacion = publicacion;
+    }
 }

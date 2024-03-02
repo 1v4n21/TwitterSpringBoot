@@ -127,7 +127,7 @@ public class ControladorUsuarios {
     @GetMapping("/registro")
     public String mostrarRegistro(Model modelo) {
         //Añadimos el modelo de usuario y mandamos a registro de nuevo
-        modelo.addAttribute("elUsuario", servicioU.getUsuario ());
+        modelo.addAttribute("elUsuario", new Usuario ());
         return "registro";
     }
 
@@ -202,7 +202,7 @@ public class ControladorUsuarios {
 
             if (usuario1 == null || usuario1.getIdUsuario () == usuario.getIdUsuario ()){
                 //Actualizamos el usuario
-                servicioU.actualizarUsuario (usuario);
+                servicioU.agregarUsuario (usuario);
 
                 Usuario usuarioNuevo = servicioU.obtenerUsuarioPorNombreUsuario (usuario.getNombreUsuario ());
 
@@ -369,7 +369,7 @@ public class ControladorUsuarios {
             Usuario usuarioExistente = servicioU.obtenerUsuarioPorNombreUsuario(usuario.getNombreUsuario());
             if (usuarioExistente == null || usuarioExistente.getIdUsuario() == usuario.getIdUsuario()) {
                 // No hay conflicto con el nombre de usuario, proceder con la edición
-                servicioU.actualizarUsuario(usuario);
+                servicioU.agregarUsuario (usuario);
                 return "redirect:/admin?accion=usuarios";
             } else {
                 // Nombre de usuario ya en uso por otro usuario, agregar un mensaje de error al modelo

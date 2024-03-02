@@ -29,7 +29,7 @@ public class Usuario implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuario_seq")
     @SequenceGenerator(name = "usuario_seq", sequenceName = "USUARIO_SEQ", allocationSize = 1)
     @Column(name = "idUsuario")
-    private int idUsuario;
+    private long idUsuario;
 
     @NotBlank(message = "El campo nombreUsuario no puede estar vacío")
     @Size(max = 20, message = "El nombre de usuario no puede tener mas de 20 caracteres")

@@ -47,7 +47,7 @@ public class ControladorGuardados {
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
 
         // Obtener las publicaciones guardadas por el usuario logueado
-        List<Publicacion> publicacionesGuardadas = servicioP.obtenerPublicacionesGuardadasPorUsuario(usuarioLogueado.getIdUsuario());
+        List<Publicacion> publicacionesGuardadas = servicioP.obtenerPublicacionesGuardadasPorUsuario((int) usuarioLogueado.getIdUsuario ());
 
         // Agregar las publicaciones y el usuario logueado al modelo
         modelo.addAttribute("lasPublicaciones", publicacionesGuardadas);

@@ -23,7 +23,7 @@ public class MeGusta {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "megusta_seq")
     @SequenceGenerator(name = "megusta_seq", sequenceName = "MEGUSTA_SEQ", allocationSize = 1)
     @Column(name = "idMG")
-    private int idMG;
+    private long idMG;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario")
@@ -32,4 +32,9 @@ public class MeGusta {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "idPublicacion", referencedColumnName = "idPublicacion")
     private Publicacion publicacion;
+
+    public MeGusta(Usuario usuario, Publicacion publicacion) {
+        this.usuario = usuario;
+        this.publicacion = publicacion;
+    }
 }

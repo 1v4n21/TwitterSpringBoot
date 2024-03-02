@@ -28,7 +28,7 @@ public class Publicacion {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "publicacion_seq")
     @SequenceGenerator(name = "publicacion_seq", sequenceName = "PUBLICACION_SEQ", allocationSize = 1)
     @Column(name = "idPublicacion")
-    private int idPublicacion;
+    private long idPublicacion;
 
     @NotBlank(message = "El campo mensaje no puede estar vacío")
     @Size(max = 200, message = "El campo mensaje no puede tener mas de 200 caracteres")
@@ -47,6 +47,7 @@ public class Publicacion {
 
     @OneToMany(mappedBy = "publicacion", cascade = CascadeType.ALL)
     private List<Guardado> guardados = new ArrayList<>();
+
 
     public boolean usuarioHaDadoMeGusta(int idUsuario) {
         // Comprueba si hay un "Me gusta" del usuario
