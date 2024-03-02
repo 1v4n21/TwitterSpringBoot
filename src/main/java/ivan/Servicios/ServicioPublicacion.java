@@ -2,67 +2,54 @@ package ivan.Servicios;
 
 import ivan.Constructores.Guardado;
 import ivan.Constructores.Publicacion;
-import ivan.Modelos.PublicacionDAO;
+import ivan.Repositorio.PublicacionRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-@Component
+@Service
 public class ServicioPublicacion {
     @Autowired
-    private Publicacion publicacion;
-
-    @Autowired
-    private PublicacionDAO publicacionDAO;
+    private PublicacionRepositorio publicacionDAO;
 
     @Autowired
     private ServicioGuardado servicioG;
 
-    public ServicioPublicacion() {
+    //Agregar, Actualizar Publicacion
+    public boolean agregarPublicacion(Publicacion publicacion) {
+        publicacionDAO.save (publicacion);
+        return true;
     }
 
-    public ServicioPublicacion(PublicacionDAO publicacionDAO, Publicacion publicacion) {
-        this.publicacionDAO = publicacionDAO;
-        this.publicacion = publicacion;
+    //Eliminar Publicacion
+    public boolean eliminarPublicacion(long idPublicacion) {
+        publicacionDAO.deleteById (idPublicacion);
+        return true;
     }
 
-    public Publicacion getPublicacion() { return publicacion; }
-    public PublicacionDAO getPublicacionDAO() {
-        return publicacionDAO;
-    }
-
-    public void setPublicacionDAO(PublicacionDAO publicacionDAO) {
-        this.publicacionDAO = publicacionDAO;
-    }
-
-    public void agregarPublicacion(Publicacion publicacion) {
-        publicacionDAO.agregarPublicacion(publicacion);
-    }
-
+    //Obtener Publicacion por id
     public Publicacion obtenerPublicacionPorId(long idPublicacion) {
-        return publicacionDAO.obtenerPublicacionPorId(idPublicacion);
+        return publicacionDAO.getReferenceById (idPublicacion);
     }
 
+    //Obtener todas las publicaciones
     public List<Publicacion> obtenerTodasLasPublicaciones() {
-        return publicacionDAO.obtenerTodasLasPublicaciones();
+        return publicacionDAO.findAll ();
     }
 
+    //Consultas via query
     public List<Publicacion> obtenerPublicacionesPorIdUsuario(long idUsuario) {
         return publicacionDAO.obtenerPublicacionesPorIdUsuario(idUsuario);
     }
 
-    public void actualizarPublicacion(Publicacion publicacion) {
-        publicacionDAO.actualizarPublicacion(publicacion);
+    public List<Publicacion> buscarPublicacionesPorNombreUsuario(String nombreUsuario) {
+        return publicacionDAO.buscarPublicacionesPorNombreUsuario (nombreUsuario);
     }
 
-    public void eliminarPublicacion(int idPublicacion) {
-        publicacionDAO.eliminarPublicacion(idPublicacion);
-    }
-
-    public List<Publicacion> obtenerPublicacionesGuardadasPorUsuario(int idUsuario) {
+    public List<Publicacion> obtenerPublicacionesGuardadasPorUsuario(long idUsuario) {
         // Suponiendo que tienes un método en tu ServicioGuardado para obtener publicaciones guardadas por un usuario
         List<Guardado> guardados = servicioG.obtenerGuardadosPorIdUsuario(idUsuario);
 
@@ -78,8 +65,5 @@ public class ServicioPublicacion {
         return publicacionesGuardadas;
     }
 
-    public List<Publicacion> buscarPublicacionesPorNombreUsuario(String nombreUsuario) {
-        return publicacionDAO.buscarPublicacionesPorNombreUsuario (nombreUsuario);
-    }
 }
 

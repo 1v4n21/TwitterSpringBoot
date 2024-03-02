@@ -19,6 +19,12 @@ public class ServicioUsuario {
         return true;
     }
 
+    //Eliminar Usuario
+    public boolean eliminarUsuario(long idUsuario) {
+        usuarioDAO.deleteById (idUsuario);
+        return true;
+    }
+
     //Obtener Usuario por id
     public Usuario obtenerUsuarioPorId(long idUsuario) {
         return usuarioDAO.getReferenceById (idUsuario);
@@ -29,13 +35,8 @@ public class ServicioUsuario {
         return usuarioDAO.findAll ();
     }
 
-    //Eliminar Usuario
-    public boolean eliminarUsuario(long idUsuario) {
-        usuarioDAO.deleteById (idUsuario);
-        return true;
-    }
 
-    //Metodos via query
+    //Consultas via query
     public Usuario verificarUsuario(String nombreUsuario, String password){ return usuarioDAO.verificarUsuario (nombreUsuario, password); }
     public Usuario obtenerUsuarioPorNombreUsuario(String nombreUsuario){return usuarioDAO.obtenerUsuarioPorNombreUsuario (nombreUsuario); }
 

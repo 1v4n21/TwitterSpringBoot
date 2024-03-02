@@ -1,63 +1,51 @@
 package ivan.Servicios;
 
 import ivan.Constructores.Guardado;
-import ivan.Modelos.GuardadoDAO;
+import ivan.Repositorio.GuardadoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
 public class ServicioGuardado {
 
     @Autowired
-    private GuardadoDAO guardadoDAO;
+    private GuardadoRepositorio guardadoDAO;
 
-    public ServicioGuardado() {
+    //Agregar, Actualizar Guardado
+    public boolean agregarGuardado(Guardado guardado) {
+        guardadoDAO.save(guardado);
+        return true;
     }
 
-    public ServicioGuardado(GuardadoDAO guardadoDAO) {
-        this.guardadoDAO = guardadoDAO;
+    //Eliminar Guardado
+    public boolean eliminarGuardado(long idGuardado) {
+        guardadoDAO.deleteById (idGuardado);
+        return true;
     }
 
-    public GuardadoDAO getGuardadoDAO() {
-        return guardadoDAO;
-    }
+    //Obtener Guardado por id
+    public Guardado obtenerGuardadoPorId(long idGuardado) { return guardadoDAO.getReferenceById (idGuardado); }
 
-    public void setGuardadoDAO(GuardadoDAO guardadoDAO) {
-        this.guardadoDAO = guardadoDAO;
-    }
-
-    public void agregarGuardado(Guardado guardado) {
-        guardadoDAO.agregarGuardado(guardado);
-    }
-
-    public Guardado obtenerGuardadoPorId(int idGuardado) {
-        return guardadoDAO.obtenerGuardadoPorId(idGuardado);
-    }
-
+    //Obtener todos los Guardados
     public List<Guardado> obtenerTodosLosGuardados() {
-        return guardadoDAO.obtenerTodosLosGuardados();
+        return guardadoDAO.findAll ();
     }
 
-    public List<Guardado> obtenerGuardadosPorIdUsuario(int idUsuario) {
+    //Consultas via query
+    public List<Guardado> obtenerGuardadosPorIdUsuario(long idUsuario) {
         return guardadoDAO.obtenerGuardadosPorIdUsuario(idUsuario);
     }
 
-    public List<Guardado> obtenerGuardadosPorIdPublicacion(int idPublicacion) {
+    public List<Guardado> obtenerGuardadosPorIdPublicacion(long idPublicacion) {
         return guardadoDAO.obtenerGuardadosPorIdPublicacion(idPublicacion);
     }
 
-    public Guardado obtenerGuardadoPorIdUsuarioYIdPublicacion(int idUsuario, int idPublicacion) {
+    public Guardado obtenerGuardadoPorIdUsuarioYIdPublicacion(long idUsuario, long idPublicacion) {
         return guardadoDAO.obtenerGuardadoPorIdUsuarioYIdPublicacion(idUsuario, idPublicacion);
     }
 
-    public void actualizarGuardado(Guardado guardado) {
-        guardadoDAO.actualizarGuardado(guardado);
-    }
 
-    public void eliminarGuardado(long idGuardado) {
-        guardadoDAO.eliminarGuardado(idGuardado);
-    }
 }
 

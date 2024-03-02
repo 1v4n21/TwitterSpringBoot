@@ -1,62 +1,50 @@
 package ivan.Servicios;
 
 import ivan.Constructores.MeGusta;
-import ivan.Modelos.MeGustaDAO;
+import ivan.Repositorio.MeGustaRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
 public class ServicioMeGusta {
 
     @Autowired
-    private MeGustaDAO meGustaDAO;
+    private MeGustaRepositorio meGustaDAO;
 
-    public ServicioMeGusta() {
+    //Agregar, Actualizar MeGusta
+    public boolean agregarMeGusta(MeGusta meGusta) {
+        meGustaDAO.save (meGusta);
+        return true;
     }
 
-    public ServicioMeGusta(MeGustaDAO meGustaDAO) {
-        this.meGustaDAO = meGustaDAO;
+    //Eliminar MeGusta
+    public boolean eliminarMeGusta(long idMG) {
+        meGustaDAO.deleteById (idMG);
+        return true;
     }
 
-    public MeGustaDAO getMeGustaDAO() {
-        return meGustaDAO;
+    //OBtener MeGusta por id
+    public MeGusta obtenerMeGustaPorId(long idMG) {
+        return meGustaDAO.getReferenceById (idMG);
     }
 
-    public void setMeGustaDAO(MeGustaDAO meGustaDAO) {
-        this.meGustaDAO = meGustaDAO;
-    }
-
-    public void agregarMeGusta(MeGusta meGusta) {
-        meGustaDAO.agregarMeGusta(meGusta);
-    }
-
-    public MeGusta obtenerMeGustaPorId(int idMG) {
-        return meGustaDAO.obtenerMeGustaPorId(idMG);
-    }
-
+    //Obtener todos los MeGusta
     public List<MeGusta> obtenerTodosLosMeGustas() {
-        return meGustaDAO.obtenerTodosLosMeGustas();
+        return meGustaDAO.findAll ();
     }
 
-    public List<MeGusta> obtenerMeGustasPorIdUsuario(int idUsuario) {
+    //Consultas via query
+    public List<MeGusta> obtenerMeGustasPorIdUsuario(long idUsuario) {
         return meGustaDAO.obtenerMeGustasPorIdUsuario(idUsuario);
     }
 
-    public List<MeGusta> obtenerMeGustasPorIdPublicacion(int idPublicacion) {
+    public List<MeGusta> obtenerMeGustasPorIdPublicacion(long idPublicacion) {
         return meGustaDAO.obtenerMeGustasPorIdPublicacion(idPublicacion);
     }
 
-    public MeGusta obtenerMeGustaPorIdUsuarioYIdPublicacion(int idUsuario, int idPublicacion) {
+    public MeGusta obtenerMeGustaPorIdUsuarioYIdPublicacion(long idUsuario, long idPublicacion) {
         return meGustaDAO.obtenerMeGustaPorIdUsuarioYIdPublicacion(idUsuario, idPublicacion);
-    }
-
-    public void actualizarMeGusta(MeGusta meGusta) {
-        meGustaDAO.actualizarMeGusta(meGusta);
-    }
-
-    public void eliminarMeGusta(long idMG) {
-        meGustaDAO.eliminarMeGusta(idMG);
     }
 }

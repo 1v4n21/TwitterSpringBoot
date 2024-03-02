@@ -133,7 +133,7 @@ public class ControladorPublicaciones {
                 publicacion.setUsuario (usuarioLogueado);
                 publicacion.setFecha(new Date());
                 publicacion.setMensaje (publicacion.getMensaje ()+" (Editado)");
-                servicioP.actualizarPublicacion (publicacion);
+                servicioP.agregarPublicacion (publicacion);
             } else {
                 // Insertar el usuario
                 Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
@@ -166,7 +166,7 @@ public class ControladorPublicaciones {
     public ResponseEntity<String> buscarPublicaciones(@RequestParam String username, HttpSession session) {
         // Obtener la información del usuario logueado desde la sesión
         Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
-        Integer idUsuario = usuarioLogueado.getIdUsuario ();
+        Long idUsuario = usuarioLogueado.getIdUsuario ();
         String rolUsuario = usuarioLogueado.getRol ();
 
         // Obtener la publicación

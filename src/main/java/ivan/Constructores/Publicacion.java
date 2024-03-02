@@ -49,12 +49,12 @@ public class Publicacion {
     private List<Guardado> guardados = new ArrayList<>();
 
 
-    public boolean usuarioHaDadoMeGusta(int idUsuario) {
+    public boolean usuarioHaDadoMeGusta(long idUsuario) {
         // Comprueba si hay un "Me gusta" del usuario
         return meGustas.stream().anyMatch(m -> m.getUsuario().getIdUsuario() == idUsuario);
     }
 
-    public boolean usuarioHaGuardado(int idUsuario) {
+    public boolean usuarioHaGuardado(long idUsuario) {
         // Comprueba si hay un "Guardado" del usuario
         return guardados.stream().anyMatch(g -> g.getUsuario().getIdUsuario() == idUsuario);
     }
