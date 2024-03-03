@@ -170,7 +170,7 @@ public class ControladorPublicaciones {
         String rolUsuario = usuarioLogueado.getRol ();
 
         // Obtener la publicación
-        List<Publicacion> publicaciones = servicioP.buscarPublicacionesPorNombreUsuario(username);
+        List<Publicacion> publicaciones = servicioP.buscarPublicacionesPorNombreUsuario(username + "%");
 
         // Construir manualmente el JSON
         StringBuilder jsonBuilder = new StringBuilder();
