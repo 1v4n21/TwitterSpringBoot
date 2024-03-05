@@ -54,7 +54,7 @@ public class ServicioUsuario implements UserDetailsService {
             throw new UsernameNotFoundException("Usuario no encontrado");
         }
 
-        System.out.println("Usuario encontrado: " + usuario.getNombreUsuario());
+        System.out.println("Usuario encontrado:  " + usuario.getNombreUsuario());
 
         return User
                 .withUsername(usuario.getNombreUsuario())
