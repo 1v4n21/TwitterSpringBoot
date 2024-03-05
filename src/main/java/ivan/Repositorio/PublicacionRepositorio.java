@@ -13,4 +13,7 @@ public interface PublicacionRepositorio extends JpaRepository<Publicacion, Long>
 
     @Query("SELECT p FROM Publicacion p WHERE p.usuario.nombreUsuario LIKE :nombreUsuarioPrefix")
     public List<Publicacion> buscarPublicacionesPorNombreUsuario(String nombreUsuarioPrefix);
+
+    @Query("FROM Publicacion p ORDER BY p.fecha DESC")
+    public List<Publicacion> obtenerTodasLasPublicaciones();
 }

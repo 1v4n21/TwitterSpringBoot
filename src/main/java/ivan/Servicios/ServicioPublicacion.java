@@ -37,7 +37,7 @@ public class ServicioPublicacion {
 
     //Obtener todas las publicaciones
     public List<Publicacion> obtenerTodasLasPublicaciones() {
-        return publicacionDAO.findAll ();
+        return publicacionDAO.obtenerTodasLasPublicaciones ();
     }
 
     //Consultas via query

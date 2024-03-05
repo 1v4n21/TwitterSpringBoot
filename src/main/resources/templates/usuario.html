@@ -22,7 +22,7 @@
 <!-- Cabecera -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
-        <a class="navbar-brand" href="inicio">
+        <a class="navbar-brand" th:href="@{/inicio}">
             SocialTweet
             <img src="/images/icono.png" alt="Logo de SocialTweet">
         </a>
@@ -31,21 +31,21 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item" th:if="${usuarioLogueado != null and usuarioLogueado.rol == 'admin'}">
-                    <a class="nav-link" href="admin">Admin</a>
+                <li th:if="${usuarioLogueado.rol == 'admin'}" class="nav-item">
+                    <a class="nav-link" th:href="@{/admin}">Admin</a>
                 </li>
-                <li class="nav-item" th:if="${usuarioLogueado != null and usuarioLogueado.rol != 'admin'}">
+                <li th:unless="${usuarioLogueado.rol == 'admin'}" class="nav-item">
                     <a class="nav-link" th:href="@{/ajustes(id=${usuarioLogueado.idUsuario})}">Ajustes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="guardados">Guardados</a>
+                    <a class="nav-link" th:href="@{/guardados}">Guardados</a>
                 </li>
             </ul>
             <!-- Campo de búsqueda -->
             <input id="searchInput" class="form-control me-2" type="search" placeholder="Buscar Usuario" aria-label="Buscar" disabled>
 
             <!-- Botón de Logout con color rojo y dinámico -->
-            <a class="btn btn-danger" href="logout">Logout</a>
+            <a class="btn btn-danger" th:href="@{/logout}">Logout</a>
         </div>
     </div>
 </nav>
@@ -85,7 +85,7 @@
 
         <div class="mb-3">
             <label for="password" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" id="password" th:field="${usuario.password}" />
+            <input class="form-control" id="password" th:field="${usuario.password}" />
         </div>
 
         <div class="mb-3">
@@ -114,8 +114,10 @@
     </script>
 
     <!-- mostrar el mensaje de error -->
-    <div th:if="${not empty error}" class="alert alert-danger mt-3">
-        <p th:text="${error}"></p>
+    <div th:if="${error}">
+        <div class="alert alert-danger mt-3">
+            <p th:text="${error}"></p>
+        </div>
     </div>
 </div>
 

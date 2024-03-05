@@ -8,6 +8,7 @@ import ivan.Servicios.ServicioPublicacion;
 import ivan.Servicios.ServicioUsuario;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -137,7 +138,9 @@ public class ControladorPublicaciones {
             } else {
                 // Insertar el usuario
                 Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
-                publicacion.setUsuario(usuarioLogueado);
+                Usuario usuarioGestionado = servicioU.obtenerUsuarioPorId (usuarioLogueado.getIdUsuario ());
+
+                publicacion.setUsuario(usuarioGestionado);
                 publicacion.setFecha(new Date());
 
                 // Guardar la publicación

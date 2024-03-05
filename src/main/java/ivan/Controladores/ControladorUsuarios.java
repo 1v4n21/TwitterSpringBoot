@@ -327,6 +327,7 @@ public class ControladorUsuarios {
 
         modelo.addAttribute("usuario", usuario);
         modelo.addAttribute("accion", accion);
+        modelo.addAttribute ("usuarioLogueado", usuarioLogueado);
 
         // Devolver la vista del formulario
         return "usuario";
