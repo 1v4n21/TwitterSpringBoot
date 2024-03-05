@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.beans.Encoder;
 import java.util.Date;
 import java.util.List;
 
@@ -34,56 +36,14 @@ public class ControladorUsuarios {
     @Autowired
     private ServicioGuardado servicioG;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     public ControladorUsuarios (){}
 
     @RequestMapping({"/"})
-    public String cargarAdmin(Model modelo) {
-        // Verificar si ya existe un usuario admin
-        if (servicioU.obtenerUsuarioPorNombreUsuario("admin") == null) {
-            // Si no existe, creamos el usuario admin
-            Usuario a1 = new Usuario();
-            a1.setNombre("Admin");
-            a1.setEmail("admin@gmail.com");
-            a1.setNombreUsuario("admin");
-            a1.setPassword("root1234");
-            a1.setRol("admin");
-
-            // Guardamos el usuario admin
-            servicioU.agregarUsuario(a1);
-
-            // Creamos tres usuarios adicionales con dos publicaciones cada uno si no existen
-            crearUsuarioYPublicaciones("user1", "user1@gmail.com", "password1", "user1");
-            crearUsuarioYPublicaciones("user2", "user2@gmail.com", "password2", "user2");
-            crearUsuarioYPublicaciones("user3", "user3@gmail.com", "password3", "user3");
-        }
-
-        return "redirect:/login";
-    }
-
-    private void crearUsuarioYPublicaciones(String nombreUsuario, String email, String password, String nombre) {
-        // Verificar si el usuario ya existe
-        if (servicioU.obtenerUsuarioPorNombreUsuario(nombreUsuario) == null) {
-            // Crear usuario
-            Usuario usuario = new Usuario();
-            usuario.setNombreUsuario(nombreUsuario);
-            usuario.setEmail(email);
-            usuario.setPassword(password);
-            usuario.setNombre(nombre);
-            usuario.setRol("normal");
-            servicioU.agregarUsuario(usuario);
-
-            // Obtener el usuario recién creado
-            Usuario usuarioCreado = servicioU.obtenerUsuarioPorNombreUsuario(nombreUsuario);
-
-            // Crear dos publicaciones para el usuario
-            for (int i = 0; i < 2; i++) {
-                Publicacion publicacion = new Publicacion();
-                publicacion.setUsuario(usuarioCreado);
-                publicacion.setMensaje("Publicación " + (i + 1) + " de " + nombreUsuario);
-                publicacion.setFecha(new Date());
-                servicioP.agregarPublicacion(publicacion);
-            }
-        }
+    public String dashboard() {
+        return "Welcome to dashboard";
     }
 
     @GetMapping({"/login"})
@@ -140,6 +100,7 @@ public class ControladorUsuarios {
             if (usuario1 == null){
                 //Registramos el usuario en caso de que este no exista
                 usuario.setRol ("normal");
+                usuario.setPassword (passwordEncoder.encode (usuario.getPassword ()));
                 servicioU.agregarUsuario (usuario);
 
                 Usuario usuarioNuevo = servicioU.obtenerUsuarioPorNombreUsuario (usuario.getNombreUsuario ());

@@ -8,11 +8,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.Role;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Component
@@ -24,7 +29,7 @@ import java.util.List;
 @NoArgsConstructor //Lombok Genera un constructor sin argumentos.
 @AllArgsConstructor  //Lombok Genera un constructor que acepta todos los campos
 @Builder
-public class Usuario implements Serializable {
+public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuario_seq")
     @SequenceGenerator(name = "usuario_seq", sequenceName = "USUARIO_SEQ", allocationSize = 1)
@@ -66,4 +71,40 @@ public class Usuario implements Serializable {
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<Guardado> guardados = new ArrayList<>();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorityList = new ArrayList<>();
+
+        // Agregar el rol del usuario a la lista de autoridades
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(rol);
+        authorityList.add(authority);
+
+        return authorityList;
+    }
+
+    @Override
+    public String getUsername () {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired () {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked () {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired () {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled () {
+        return true;
+    }
 }

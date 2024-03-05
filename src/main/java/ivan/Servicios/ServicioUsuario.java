@@ -3,12 +3,16 @@ package ivan.Servicios;
 import ivan.Constructores.Usuario;
 import ivan.Repositorio.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ServicioUsuario {
+public class ServicioUsuario implements UserDetailsService {
 
     @Autowired
     private UsuarioRepositorio usuarioDAO;
@@ -39,5 +43,24 @@ public class ServicioUsuario {
     //Consultas via query
     public Usuario verificarUsuario(String nombreUsuario, String password){ return usuarioDAO.verificarUsuario (nombreUsuario, password); }
     public Usuario obtenerUsuarioPorNombreUsuario(String nombreUsuario){return usuarioDAO.obtenerUsuarioPorNombreUsuario (nombreUsuario); }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("Intentando cargar el usuario con nombre: " + username);
+        Usuario usuario = usuarioDAO.obtenerUsuarioPorNombreUsuario(username);
+
+        if (usuario == null) {
+            System.out.println("Usuario no encontrado para nombre de usuario: " + username);
+            throw new UsernameNotFoundException("Usuario no encontrado");
+        }
+
+        System.out.println("Usuario encontrado: " + usuario.getNombreUsuario());
+
+        return User
+                .withUsername(usuario.getNombreUsuario())
+                .password(usuario.getPassword())
+                .roles(usuario.getRol())
+                .build();
+    }
 
 }
