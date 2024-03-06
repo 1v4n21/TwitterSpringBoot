@@ -19,26 +19,21 @@ public class SecurityConfig {
         this.userService = userService;
     }
 
+    //Configuracion de Security
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.formLogin(form -> form
+        return http
+                .formLogin(form -> form
                         .loginPage ("/login")
                         .permitAll ())
                 .authorizeHttpRequests (req->req
                         .requestMatchers ("/registro", "/estilos/**", "/images/**", "/javascript/**").permitAll ()
+                        .requestMatchers ("/darLike").permitAll ()
                         .anyRequest ().authenticated ())
                 .userDetailsService (userService).build ();
-
-        /*
-        return http.formLogin (Customizer.withDefaults ())
-                .authorizeHttpRequests (req -> req
-                        .requestMatchers ("/login/**").permitAll ()
-                        .anyRequest ().authenticated ())
-                .userDetailsService (userService).build ();
-
-         */
     }
 
+    //Encriptamiento de contraseña
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();

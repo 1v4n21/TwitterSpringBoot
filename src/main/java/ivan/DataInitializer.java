@@ -50,6 +50,7 @@ public class DataInitializer implements CommandLineRunner {
     private void crearUsuarioYPublicaciones(String nombreUsuario, String email, String password, String nombre) {
         // Verificar si el usuario ya existe
         Usuario usuarioExistente = servicioU.obtenerUsuarioPorNombreUsuario(nombreUsuario);
+
         if (usuarioExistente == null) {
             // Crear usuario
             usuarioExistente = new Usuario();
@@ -59,10 +60,11 @@ public class DataInitializer implements CommandLineRunner {
             usuarioExistente.setNombre(nombre);
             usuarioExistente.setRol("normal");
 
-            // Guardar el usuario
+            // Guardar el usuario usando el repositorio de Usuario
             servicioU.agregarUsuario(usuarioExistente);
         }
     }
+
 }
 
 

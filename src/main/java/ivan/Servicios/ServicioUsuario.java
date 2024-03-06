@@ -48,7 +48,6 @@ public class ServicioUsuario implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario = usuarioDAO.obtenerUsuarioPorNombreUsuario(username);
-        System.out.println (usuario);
 
         if (usuario == null) {
             throw new UsernameNotFoundException("Usuario no encontrado");

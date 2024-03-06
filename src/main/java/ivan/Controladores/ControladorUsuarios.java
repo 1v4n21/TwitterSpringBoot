@@ -50,6 +50,22 @@ public class ControladorUsuarios {
 
     @RequestMapping({"/"})
     public String inicio(HttpSession session) {
+        //Cargar publicación por usuario
+
+        // Recuperar todos los usuarios de la base de datos
+        List<Usuario> usuarios = servicioU.obtenerTodosLosUsuarios();
+
+        // Crear una publicación por cada usuario
+        for (Usuario usuario : usuarios) {
+            Publicacion publicacion = new Publicacion();
+            publicacion.setMensaje ("Publicación creada para el usuario: " + usuario.getNombreUsuario());
+            publicacion.setFecha(new Date());
+            publicacion.setUsuario(usuario);
+
+            // Guardar la publicación usando el repositorio de Publicacion
+            servicioP.agregarPublicacion(publicacion);
+        }
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         //Obtener usuario autenticado
