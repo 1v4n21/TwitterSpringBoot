@@ -196,6 +196,7 @@ public class ControladorUsuarios {
 
             if (usuario1 == null || usuario1.getIdUsuario () == usuario.getIdUsuario ()){
                 //Actualizamos el usuario
+                usuario.setPassword (passwordEncoder.encode (usuario.getPassword ()));
                 servicioU.agregarUsuario (usuario);
 
                 Usuario usuarioNuevo = servicioU.obtenerUsuarioPorNombreUsuario (usuario.getNombreUsuario ());
@@ -334,6 +335,7 @@ public class ControladorUsuarios {
             Usuario usuarioExistente = servicioU.obtenerUsuarioPorNombreUsuario(usuario.getNombreUsuario());
             if (usuarioExistente == null) {
                 // El nombre de usuario no está en uso, proceder con la creación
+                usuario.setPassword (passwordEncoder.encode (usuario.getPassword ()));
                 servicioU.agregarUsuario(usuario);
                 return "redirect:/admin?accion=usuarios";
             } else {
