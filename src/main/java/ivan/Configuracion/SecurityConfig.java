@@ -23,12 +23,15 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                //Para que deje utilizar AJAX con Spring Security csrf
+                .csrf (csrf -> csrf.ignoringRequestMatchers ("/buscarPublicaciones", "/darLike", "/borrarPost", "/guardarPost"))
                 .formLogin(form -> form
+                        //Formulario por defecto creado por mi
                         .loginPage ("/login")
                         .permitAll ())
                 .authorizeHttpRequests (req->req
+                        //Apartados a los que se esta permitido entrar sin autorizacion para cargar el registro
                         .requestMatchers ("/registro", "/estilos/**", "/images/**", "/javascript/**").permitAll ()
-                        .requestMatchers ("/darLike").permitAll ()
                         .anyRequest ().authenticated ())
                 .userDetailsService (userService).build ();
     }
