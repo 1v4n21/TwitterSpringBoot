@@ -30,44 +30,29 @@
         SocialTweet
     </div>
 
-    <form th:action="@{/login}" th:method="post" th:object="${elUsuario}" id="loginForm">
+    <form id="loginForm" method="post" th:action="@{/login}">
 
         <!-- Nombre de Usuario -->
         <div class="form-field d-flex align-items-center">
             <span class="fa-solid fa-user"></span>
-            <input th:field="*{nombreUsuario}" id="userName" placeholder="Nombre Usuario" />
+            <input name="username" id="userName" type="text" placeholder="Nombre Usuario" required autofocus />
         </div>
 
         <!-- Contraseña -->
         <div class="form-field d-flex align-items-center">
             <span class="fa-solid fa-key"></span>
-            <input type="password" th:field="*{password}" id="pwd" placeholder="Contraseña" />
+            <input name="password" type="password" id="pwd" placeholder="Contraseña" required />
         </div>
+
+        <input name="_csrf" type="hidden" th:value="${_csrf.token}" />
 
         <!-- Boton de envio de formulario -->
         <button type="submit" class="btn mt-3">Iniciar Sesión</button>
     </form>
 
-    <!-- Limpiar los input en caso de error -->
-    <div th:if="${hasError}">
-        <script th:inline="javascript">
-            $(document).ready(function () {
-                $('#userName').val('');
-                $('#pwd').val('');
-            });
-        </script>
-    </div>
-
     <!-- Link para realizar el registro -->
     <div class="text-center fs-6">
         <a th:href="@{/registro}">No tienes cuenta? Registrate</a>
-    </div>
-
-    <!-- mostrar el mensaje de error -->
-    <div th:if="${error}">
-        <div class="alert alert-danger mt-3">
-            <p th:text="${error}"></p>
-        </div>
     </div>
 </div>
 

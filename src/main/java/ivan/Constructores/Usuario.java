@@ -63,13 +63,13 @@ public class Usuario implements UserDetails {
     @Column(name = "rol")
     private String rol;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Publicacion> publicaciones = new ArrayList<>();
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<MeGusta> meGustas = new ArrayList<>();
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Guardado> guardados = new ArrayList<>();
 
     @Override
@@ -85,7 +85,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getUsername () {
-        return null;
+        return nombreUsuario;
     }
 
     @Override

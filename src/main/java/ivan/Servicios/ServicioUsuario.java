@@ -44,17 +44,15 @@ public class ServicioUsuario implements UserDetailsService {
     public Usuario verificarUsuario(String nombreUsuario, String password){ return usuarioDAO.verificarUsuario (nombreUsuario, password); }
     public Usuario obtenerUsuarioPorNombreUsuario(String nombreUsuario){return usuarioDAO.obtenerUsuarioPorNombreUsuario (nombreUsuario); }
 
+    //Cargar usuario al hacer el login con autentificacion
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("Intentando cargar el usuario con nombre: " + username);
         Usuario usuario = usuarioDAO.obtenerUsuarioPorNombreUsuario(username);
+        System.out.println (usuario);
 
         if (usuario == null) {
-            System.out.println("Usuario no encontrado para nombre de usuario: " + username);
             throw new UsernameNotFoundException("Usuario no encontrado");
         }
-
-        System.out.println("Usuario encontrado:  " + usuario.getNombreUsuario());
 
         return User
                 .withUsername(usuario.getNombreUsuario())

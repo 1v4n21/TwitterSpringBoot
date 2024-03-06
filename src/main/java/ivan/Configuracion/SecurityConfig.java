@@ -27,7 +27,16 @@ public class SecurityConfig {
                 .authorizeHttpRequests (req->req
                         .requestMatchers ("/registro", "/estilos/**", "/images/**", "/javascript/**").permitAll ()
                         .anyRequest ().authenticated ())
-                .userDetailsService ((UserDetailsService) userService).build ();
+                .userDetailsService (userService).build ();
+
+        /*
+        return http.formLogin (Customizer.withDefaults ())
+                .authorizeHttpRequests (req -> req
+                        .requestMatchers ("/login/**").permitAll ()
+                        .anyRequest ().authenticated ())
+                .userDetailsService (userService).build ();
+
+         */
     }
 
     @Bean

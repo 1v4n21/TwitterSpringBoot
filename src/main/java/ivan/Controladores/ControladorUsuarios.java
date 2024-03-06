@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,12 +43,27 @@ public class ControladorUsuarios {
 
     public ControladorUsuarios (){}
 
-    @RequestMapping({"/"})
-    public String dashboard() {
-        return "Welcome to dashboard";
+    @GetMapping("/login")
+    String login() {
+        return "login";
     }
 
-    @GetMapping({"/login"})
+    @RequestMapping({"/"})
+    public String inicio(HttpSession session) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        //Obtener usuario autenticado
+        String usuario = authentication.getName();
+        Usuario user = servicioU.obtenerUsuarioPorNombreUsuario (usuario);
+
+        //Lo guardamos en la variable de sesion
+        session.setAttribute("usuarioLogueado", user);
+
+        return "redirect:/inicio";
+    }
+
+    //Antiguo login sin autentificacion
+    /*@GetMapping({"/login"})
     public String mostrarLogin(Model modelo) {
         //Añadimos el modelo de usuario y mandamos a login de nuevo
         modelo.addAttribute("elUsuario", new LoginForm ());
@@ -82,7 +99,7 @@ public class ControladorUsuarios {
             model.addAttribute("hasError", true);
             return "login";
         }
-    }
+    }*/
 
     @GetMapping("/registro")
     public String mostrarRegistro(Model modelo) {
